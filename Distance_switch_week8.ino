@@ -31,22 +31,21 @@ void setup() {
 
 void loop() {
   float distance = readDistance();
-  digitalWrite(LED, LOW);
-  //  SEND DATA TO P5
+
   if (distance != -1) {
-    Serial.println(distance);
-  } else {
-    Serial.println(-1);
-  }
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println(" cm");
 
-  //  RECEIVE FROM P5
-  if (Serial.available() > 0) {
-    char incoming = Serial.read();
-
-    if (incoming == 'B') {
-      digitalWrite(LED, HIGH);
+    if (distance <= 10.0) {
+      digitalWrite(LED, HIGH);   // Turn LED on
+    } else {
+      digitalWrite(LED, LOW);    // Turn LED off
     }
+  } else {
+    Serial.println("No object detected");
+    digitalWrite(LED, LOW);      // Keep LED off if no reading
   }
 
-  delay(50);
+  delay(200);
 }
